@@ -1,0 +1,52 @@
+---
+swagger: "2.0"
+info:
+  description: "Basic user authentication for final project"
+  version: "1.0.0"
+  title: "User Authentication Final Round"
+host: "localhost"
+basePath: "/accounts"
+schemes:
+- "https"
+paths:
+  /create:
+    get:
+      tags:
+      - "Accounts"
+      summary: "Creates an account for user"
+      description: "Allows user to create an account for future logins"
+      operationId: "create_account"
+      produces:
+      - "application/json"
+      parameters: []
+      responses:
+        200:
+          description: "Account Created"
+        409:
+          description: "Username already exists"
+      security:
+      - basicAuth: []
+      x-swagger-router-controller: "swagger_server.controllers.accounts_controller"
+  /login:
+    get:
+      tags:
+      - "Accounts"
+      summary: "Attempts to log a user in"
+      description: "Given a username and password checks the database to see if those\
+        \ are the proper credentials to get access"
+      operationId: "login_account"
+      produces:
+      - "application/json"
+      parameters: []
+      responses:
+        200:
+          description: "Succsesful Login"
+        401:
+          description: "Improper Credentials"
+      security:
+      - basicAuth: []
+      x-swagger-router-controller: "swagger_server.controllers.accounts_controller"
+securityDefinitions:
+  basicAuth:
+    type: "basic"
+definitions: {}
