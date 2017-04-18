@@ -1,39 +1,25 @@
-Dockerizing QT tests are turning out to be a more complex process than expected. 
-So one way to run these tests in a "Dockerized" fashion is to follow the following steps.
-Otherwise, booting these tests up in qtcreator will work if all else fails.
+Docker Image Repo:
+https://hub.docker.com/r/heartcase/ece4574_final/
 
+pull:
 
-Reteiving a qt IDE docker image:
+docker pull heartcase/ece4574_final
 
--------Step 1.
+run:
+xhost local:root
+docker run -v /tmp/.X11-unix:/tmp/.X11-unix -e DISPLAY=$DISPLAY -v /dev/shm:/dev/shm -v ~/src:/root --device /dev/dri --name qt_creator --rm --entrypoint /opt/Qt/Tools/QtCreator/bin/qtcreator heartcase/ece4574_final:latest
 
-clone qt project files from github
+sorce:https://nicroland.wordpress.com/2015/12/06/running-qtcreator-in-docker/
 
-	git clone https://github.com/tonyt1/4574_Final.git
+Instruction:
+Pull the image
+Run the container, this will open the Qt creator window
+to run test for unit test
+open the project /4574_final/DesktopApp/DesktopAppTesting/unitTest/DesktopAppTest/
+build and run the test.
+to run test for Integration test with api
+open the project /4574_final/DesktopApp/DesktopAppTesting/IntegrationTest/DesktopAppIntegrationTest/
+build and run the test.
 
-desktop app integration and unit testing exist under DesktopApp/DesktopAppTesting 
-
-
--------Step 2.
-
-pull the qt IDE docker image from a nice man named zach
-
-	docker pull zachdeibert/qt-creator
-
-**thank you zach**
-
-
--------Step 3.
-
-run the IDE gui
-
-	docker run -v /tmp:/tmp zachdeibert/qt-creator $DISPLAY $USER
-
-qtcreator should appear on the screen. Here is where I was running in to issues
-with permissions and I was not able to access my home directory. I tried changing
-permissions and the like and I could not get it to work. But you should be able to
-pull up the project from the repository in step 1 and click run for the tests.
-
-
-- Dylan Zeigler -
-	
+Dylan Zeigler
+Boyang Li
