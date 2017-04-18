@@ -67,7 +67,7 @@ void TestGui::ClickLogin_WithInfo()
 
     int signalcount = executeSignal.count();
     QVERIFY2(signalcount == 1,"Did not send out the correct number of requests for a login.");
-    CheckFactMB();
+    //CheckFactMB();
 }
 
 void TestGui::ClickCreate_NoInfo()
@@ -110,7 +110,7 @@ void TestGui::ClickCreat_WithInfo()
 
     int signalcount = executeSignal.count();
     QVERIFY2(signalcount == 1,"Did not send out the correct number of requests for a create account.");
-    CheckFactMB();
+    //CheckFactMB();
 }
 
 
