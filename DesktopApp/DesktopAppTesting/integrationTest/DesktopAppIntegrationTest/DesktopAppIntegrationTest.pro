@@ -1,20 +1,32 @@
 #-------------------------------------------------
 #
-# Project created by QtCreator 2017-04-17T21:14:00
+# Project created by QtCreator 2017-04-17T17:25:35
 #
 #-------------------------------------------------
 
 QT       += core gui
+QT += network
+QT += widgets testlib
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
-TARGET = DesktopAppIntegrationTest
+TARGET = DesktopAppTest
 TEMPLATE = app
 
 
-SOURCES += main.cpp\
-        mainwindow.cpp
+SOURCES +=\
+    httprequestworker.cpp \
+    testgui.cpp \
+    httprequestworker.cpp \
+    mainwindow.cpp \
+    testgui.cpp
 
-HEADERS  += mainwindow.h
+HEADERS  += \
+    httprequestworker.h \
+    jsonkeys.h \
+    httprequestworker.h \
+    jsonkeys.h \
+    mainwindow.h
 
-FORMS    += mainwindow.ui
+FORMS    += \
+    mainwindow.ui
