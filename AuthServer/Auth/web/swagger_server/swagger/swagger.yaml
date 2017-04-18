@@ -4,7 +4,7 @@ info:
   description: "Basic user authentication for final project"
   version: "1.0.0"
   title: "User Authentication Final Round"
-host: "localhost"
+host: "ec2-54-187-71-59.us-west-2.compute.amazonaws.com:8000"
 basePath: "/accounts"
 schemes:
 - "https"
