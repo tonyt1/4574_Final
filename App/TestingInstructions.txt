@@ -1,6 +1,8 @@
 Ryan Smith
 ryans6
 
+The test code is not in a docker container, because of the nature of the tests.
+
 There is no way to automate HTTP request tests in Android. Because of this, I had to make some mock HTTP requests and ensure that the responses I got back were correct.
 I decided the best way to do this was to simply output to a TextView and validate the output that way, since this way, I could also mimic a button press like in our final design.
 So install the APK on an android device, and run the app. When the "Next" button is pressed, the app makes an HTTP GET request to a mock REST API, parses the JSON payload, and displays the "fun fact" to the screen.
