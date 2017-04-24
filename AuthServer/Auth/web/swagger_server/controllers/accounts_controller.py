@@ -10,9 +10,11 @@ from pymongo import MongoClient
 from flask import request
 import os
 
-client = MongoClient(os.environ.get("DB_PORT_27017_TCP_ADDR"),27017)
+client = MongoClient(os.environ.get("DB_PORT_27017_TCP_ADDR"), 27017)
+#client = MongoClient()
 pass_db = client.passdb
 pass_posts = pass_db.posts
+
 
 def create_account():
     """
@@ -21,20 +23,28 @@ def create_account():
 
     :rtype: None
     """
+    print("\n---------------------------------------------------------------")
+    print("Create Account")
+    print("Getting Authentication Headers")
     auth = request.authorization
     if auth is not None:
+        print("Searching for user '" + auth.username + "'")
         found_username = pass_posts.find_one({"username": auth.username})
         if not found_username:
-
+            print("Creating account for user '" + auth.username + "'")
             credentials = {"username": auth.username,
                            "password": auth.password}
             pass_posts.insert_one(credentials)
-            return Response("Created account!", 200)
+            print("---------------------------------------------------------------")
+            return jsonify({"Status": "Created Account"}), status.HTTP_200_OK
         else:
-            return Response("Username already exists", 409)
+            print("Username '" + auth.username + "' already taken")
+            print("---------------------------------------------------------------")
+            return jsonify({"Status": "Username already exists"}), status.HTTP_409_CONFLICT
     else:
-        return Response("Authentication requried", 400)
-    print(auth)
+        print("Missing Authentication Header")
+        print("---------------------------------------------------------------")
+        return jsonify({"Status": "Authentication header required"}), status.HTTP_401_UNAUTHORIZED
 
 
 def login_account():
@@ -44,23 +54,27 @@ def login_account():
 
     :rtype: None
     """
-    print("Getting authorization headers")
+    print("\n---------------------------------------------------------------")
+    print("Login to  Account")
+    print("Getting Authentication Headers")
     auth = request.authorization
     if auth is not None:
-        print("Finding User ", username)
-        found_user = pass_posts.find_one({"username": username})
-        if found_user is not None:
-            print("Found User")
-            if password == found_user["password"]:
-                print("Successful Authentication")
-                return Response("Successful Authentication",200)
-            else:
-                print("Failed Authentication (Password)")
-                return Response("Invalid credentials", 401)
+        print("Searching for user '" + auth.username + "'")
+        found_user = pass_posts.find_one({"username": auth.username})
+        if not found_user:
+            print("Could not find user '" + auth.username + "'")
+            print("---------------------------------------------------------------")
+            return jsonify({"Status": "Incorrect Username or Password"}), status.HTTP_401_UNAUTHORIZED
         else:
-            print("Failed Authentication (Username")
-            return Response("Invalid credentials", 401)   
+            if found_user["password"] == auth.password:
+                print("Username '" + auth.username + "' logged in")
+                print("---------------------------------------------------------------")
+                return jsonify({"Status": "Successful Login"}), status.HTTP_200_OK
+            else:
+                print("Username '" + auth.username + "' entered incorrect password")
+                print("---------------------------------------------------------------")
+                return jsonify({"Status": "Incorrect Username or Password"}), status.HTTP_401_UNAUTHORIZED
     else:
-        return Response("Authentication requried", 400)
-        
-
+        print("Missing Authentication Header")
+        print("---------------------------------------------------------------")
+        return jsonify({"Status": "Authentication header required"}), status.HTTP_401_UNAUTHORIZED
