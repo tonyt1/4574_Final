@@ -11,7 +11,6 @@ from flask import request
 import os
 
 client = MongoClient(os.environ.get("DB_PORT_27017_TCP_ADDR"), 27017)
-#client = MongoClient()
 pass_db = client.passdb
 pass_posts = pass_db.posts
 
@@ -21,7 +20,7 @@ def create_account():
     Creates an account for user
     Allows user to create an account for future logins
 
-    :rtype: None
+    :rtype: int
     """
     print("\n---------------------------------------------------------------")
     print("Create Account")
@@ -52,7 +51,7 @@ def login_account():
     Attempts to log a user in
     Given a username and password checks the database to see if those are the proper credentials to get access
 
-    :rtype: None
+    :rtype: int
     """
     print("\n---------------------------------------------------------------")
     print("Login to  Account")
@@ -69,11 +68,11 @@ def login_account():
             if found_user["password"] == auth.password:
                 print("Username '" + auth.username + "' logged in")
                 print("---------------------------------------------------------------")
-                return jsonify({"Status": "Successful Login"}), status.HTTP_200_OK
+                return jsonify({"Status": "Successful Login", "Token" : encoded}), status.HTTP_200_OK
             else:
                 print("Username '" + auth.username + "' entered incorrect password")
                 print("---------------------------------------------------------------")
-                return jsonify({"Status": "Incorrect Username or Password"}), status.HTTP_401_UNAUTHORIZED
+                return jsonify({"Status": " "}), status.HTTP_401_UNAUTHORIZED
     else:
         print("Missing Authentication Header")
         print("---------------------------------------------------------------")

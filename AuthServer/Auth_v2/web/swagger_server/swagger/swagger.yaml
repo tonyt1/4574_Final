@@ -1,8 +1,8 @@
 ---
 swagger: "2.0"
 info:
-  description: "Basic user authentication for final project"
-  version: "1.1.0"
+  description: "Basic user authentication for random fact generator."
+  version: "1.3.0"
   title: "User Authentication Final Round"
 host: "ec2-54-186-0-77.us-west-2.compute.amazonaws.com:8000"
 basePath: "/accounts"
@@ -21,9 +21,20 @@ paths:
       parameters: []
       responses:
         200:
-          description: "Account Created"
+          description: "Created Account"
+          schema:
+            type: "integer"
+            format: "int32"
+        401:
+          description: "Authentication header required"
+          schema:
+            type: "integer"
+            format: "int32"
         409:
           description: "Username already exists"
+          schema:
+            type: "integer"
+            format: "int32"
       security:
       - basicAuth: []
       x-swagger-router-controller: "swagger_server.controllers.accounts_controller"
@@ -40,9 +51,15 @@ paths:
       parameters: []
       responses:
         200:
-          description: "Succsesful Login"
+          description: "Created Account"
+          schema:
+            type: "integer"
+            format: "int32"
         401:
-          description: "Improper Credentials"
+          description: "Authentication header required / Incorrect Username or Password"
+          schema:
+            type: "integer"
+            format: "int32"
       security:
       - basicAuth: []
       x-swagger-router-controller: "swagger_server.controllers.accounts_controller"
