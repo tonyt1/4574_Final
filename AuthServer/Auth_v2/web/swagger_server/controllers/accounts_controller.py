@@ -68,7 +68,7 @@ def login_account():
             if found_user["password"] == auth.password:
                 print("Username '" + auth.username + "' logged in")
                 print("---------------------------------------------------------------")
-                return jsonify({"Status": "Successful Login"), status.HTTP_200_OK
+                return jsonify({"Status": "Successful Login"}), status.HTTP_200_OK
             else:
                 print("Username '" + auth.username + "' entered incorrect password")
                 print("---------------------------------------------------------------")
