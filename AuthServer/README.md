@@ -7,4 +7,4 @@
 * `docker-compose build`
 * `docker-compose up`
 
-You can find the server at **http://http://ec2-54-187-227-70.us-west-2.compute.amazonaws.com:8000/accounts/ui/**
+You can find the server at **http://ec2-54-186-0-77.us-west-2.compute.amazonaws.com:8000/accounts/ui/**
