@@ -4,7 +4,7 @@ info:
   description: "Basic user authentication for final project"
   version: "1.1.0"
   title: "User Authentication Final Round"
-host: "ec2-54-186-0-77.us-west-2.compute.amazonaws.com:8000/accounts/ui/:8000"
+host: "ec2-54-186-0-77.us-west-2.compute.amazonaws.com:8000"
 basePath: "/accounts"
 schemes:
 - "https"
