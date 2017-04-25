@@ -2,9 +2,9 @@
 swagger: "2.0"
 info:
   description: "Basic user authentication for final project"
-  version: "1.0.0"
+  version: "1.1.0"
   title: "User Authentication Final Round"
-host: "localhost:8000"
+host: "http://ec2-54-187-227-70.us-west-2.compute.amazonaws.com:8000"
 basePath: "/accounts"
 schemes:
 - "https"
@@ -28,7 +28,7 @@ paths:
       - basicAuth: []
       x-swagger-router-controller: "swagger_server.controllers.accounts_controller"
   /login:
-    get:
+    put:
       tags:
       - "Accounts"
       summary: "Attempts to log a user in"
