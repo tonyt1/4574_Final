@@ -106,13 +106,14 @@ def get_fact_subject(topic):
         print("Searching for user '" + auth.username + "'")
         found_user = pass_posts.find_one({"username": auth.username})
         
+        return_token = False
+
         if not found_user:
             print("Could not find user '" + auth.username + "'")
             print("---------------------------------------------------------------")
             return Response("Incorrect Username or Password", "N/A"), status.HTTP_401_UNAUTHORIZED
         
         else:
-            token = None
 
             if found_user["token"] == auth.password:
                 print("Checking token expiration date")
@@ -125,6 +126,8 @@ def get_fact_subject(topic):
                 
                 if datetime.strptime(found_user["expires"], "%Y-%m-%d %H:%M:%S.%f") < datetime.now():
                     update_token(auth.username)
+                    return_token = True
+
             else:
                 print("Username '" + auth.username +
                       "' entered incorrect token")
@@ -144,16 +147,16 @@ def get_fact_subject(topic):
                 response["facts"] = facts
                 code = status.HTTP_200_OK
 
-                if token is not None:
-                    response["token"] = token
+                if return_token:
+                    response["token"] = found_user["token"]
 
             else:
                 response["error"] = facts
                 response["subject"] = subject
                 code = status.HTTP_404_NOT_FOUND
                 
-                if token is not None:
-                    response["token"] = token
+                if return_token:
+                    response["token"] = found_user["token"]
 
             print("---------------------------------------------------------------")
             return jsonify(response), code
