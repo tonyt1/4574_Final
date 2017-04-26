@@ -24,7 +24,7 @@ def get_sentences(string):
 """
 def get_fact_subject(subject):
     try:
-        page = wikipedia.page(subject)
+        page = wikipedia.page(subject)        
     except WE.DisambiguationError as error:
         titles = error.options
         subject = titles[random.randint(0, len(titles) - 2)]
