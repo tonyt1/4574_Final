@@ -29,33 +29,29 @@ class Ui_RandomFact
 public:
     QWidget *verticalLayoutWidget;
     QVBoxLayout *verticalLayout;
-    QTextBrowser *textBrowser;
+    QLabel *label;
     QHBoxLayout *horizontalLayout;
     QLabel *label_2;
-    QLineEdit *lineEdit;
-    QPushButton *pushButton_2;
+    QLineEdit *subject;
+    QPushButton *getfact_but;
     QTextBrowser *fact_display;
+    QPushButton *logout_but;
 
     void setupUi(QWidget *RandomFact)
     {
         if (RandomFact->objectName().isEmpty())
             RandomFact->setObjectName(QStringLiteral("RandomFact"));
-        RandomFact->resize(288, 338);
+        RandomFact->resize(276, 338);
         verticalLayoutWidget = new QWidget(RandomFact);
         verticalLayoutWidget->setObjectName(QStringLiteral("verticalLayoutWidget"));
         verticalLayoutWidget->setGeometry(QRect(9, 9, 258, 327));
         verticalLayout = new QVBoxLayout(verticalLayoutWidget);
         verticalLayout->setObjectName(QStringLiteral("verticalLayout"));
         verticalLayout->setContentsMargins(0, 0, 0, 0);
-        textBrowser = new QTextBrowser(verticalLayoutWidget);
-        textBrowser->setObjectName(QStringLiteral("textBrowser"));
-        QSizePolicy sizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
-        sizePolicy.setHorizontalStretch(0);
-        sizePolicy.setVerticalStretch(0);
-        sizePolicy.setHeightForWidth(textBrowser->sizePolicy().hasHeightForWidth());
-        textBrowser->setSizePolicy(sizePolicy);
+        label = new QLabel(verticalLayoutWidget);
+        label->setObjectName(QStringLiteral("label"));
 
-        verticalLayout->addWidget(textBrowser);
+        verticalLayout->addWidget(label);
 
         horizontalLayout = new QHBoxLayout();
         horizontalLayout->setObjectName(QStringLiteral("horizontalLayout"));
@@ -64,23 +60,28 @@ public:
 
         horizontalLayout->addWidget(label_2);
 
-        lineEdit = new QLineEdit(verticalLayoutWidget);
-        lineEdit->setObjectName(QStringLiteral("lineEdit"));
+        subject = new QLineEdit(verticalLayoutWidget);
+        subject->setObjectName(QStringLiteral("subject"));
 
-        horizontalLayout->addWidget(lineEdit);
+        horizontalLayout->addWidget(subject);
 
 
         verticalLayout->addLayout(horizontalLayout);
 
-        pushButton_2 = new QPushButton(verticalLayoutWidget);
-        pushButton_2->setObjectName(QStringLiteral("pushButton_2"));
+        getfact_but = new QPushButton(verticalLayoutWidget);
+        getfact_but->setObjectName(QStringLiteral("getfact_but"));
 
-        verticalLayout->addWidget(pushButton_2);
+        verticalLayout->addWidget(getfact_but);
 
         fact_display = new QTextBrowser(verticalLayoutWidget);
         fact_display->setObjectName(QStringLiteral("fact_display"));
 
         verticalLayout->addWidget(fact_display);
+
+        logout_but = new QPushButton(verticalLayoutWidget);
+        logout_but->setObjectName(QStringLiteral("logout_but"));
+
+        verticalLayout->addWidget(logout_but);
 
 
         retranslateUi(RandomFact);
@@ -91,14 +92,11 @@ public:
     void retranslateUi(QWidget *RandomFact)
     {
         RandomFact->setWindowTitle(QApplication::translate("RandomFact", "Form", 0));
-        textBrowser->setHtml(QApplication::translate("RandomFact", "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n"
-"<html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/css\">\n"
-"p, li { white-space: pre-wrap; }\n"
-"</style></head><body style=\" font-family:'MS Shell Dlg 2'; font-size:8.25pt; font-weight:400; font-style:normal;\">\n"
-"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\">Click the Button Below for a Random Fact. </p>\n"
-"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\">Add a subject to narrow random fact</p></body></html>", 0));
+        label->setText(QApplication::translate("RandomFact", "Click the Button Below for a Random Fact. \n"
+"Add a subject to narrow random fact", 0));
         label_2->setText(QApplication::translate("RandomFact", "Subject: ", 0));
-        pushButton_2->setText(QApplication::translate("RandomFact", "Get Random Fact", 0));
+        getfact_but->setText(QApplication::translate("RandomFact", "Get Random Fact", 0));
+        logout_but->setText(QApplication::translate("RandomFact", "Logout", 0));
     } // retranslateUi
 
 };

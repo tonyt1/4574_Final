@@ -17,9 +17,9 @@ RandomFact::RandomFact(QWidget *parent) :
     //ui signal to http request worker execute
     connect(this, SIGNAL(SendHTTPRequest(HttpRequestInput*)), worker, SLOT(execute(HttpRequestInput*)));
     //logout if window is closed
-    connect(this, SIGNAL(destroyed()), this, SLOT(execute(on_logout_but_clicked()));
+    connect(this, SIGNAL(destroyed()), this, SLOT(execute(on_logout_but_clicked())));
 
-    HashToken = NULL:
+    HashToken = NULL;
 
 }
 

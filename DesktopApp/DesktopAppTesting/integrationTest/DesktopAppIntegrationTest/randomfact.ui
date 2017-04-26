@@ -41,7 +41,7 @@ Add a subject to narrow random fact</string>
        </widget>
       </item>
       <item>
-       <widget class="QLineEdit" name="lineEdit"/>
+       <widget class="QLineEdit" name="subject"/>
       </item>
      </layout>
     </item>
