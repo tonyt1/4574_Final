@@ -1,5 +1,5 @@
-import connexion, secrets
-from datetime import date, datetime
+import connexion
+from datetime import date, datetime, timedelta
 from typing import List, Dict
 from six import iteritems
 from ..util import deserialize_date, deserialize_datetime
@@ -9,6 +9,7 @@ from flask_api import status
 import fact_generator as FG
 from pymongo import MongoClient
 import os
+import hashlib
 
 client = MongoClient(os.environ.get("DB_PORT_27017_TCP_ADDR"), 27017)
 pass_db = client.passdb
@@ -48,7 +49,9 @@ def get_fact_random():
             elif found_user["password"] == hashlib.md5((auth.password).encode('utf-8')).hexdigest():
 
                 if datetime.strptime(found_user["expires"], "%Y-%m-%d %H:%M:%S.%f") < datetime.now():
-                    token = secrets.token_urlsafe(64)
+                    token = update_token(auth.username)
+                    print("Token expired")
+
 
             else:
                 print("Username '" + auth.username +
@@ -171,7 +174,10 @@ def Response(status,token):
     return jsonify({"Status": status, "Token": token})
 
 def update_token(username):
-    new_token = secrets.token_urlsafe(64)
+    new_token = ""
+    for i in range(16):
+         new_token = new_token + str(random.randrange(10))
+    new_token =  hashlib.md5((token).encode('utf-8')).hexdigest()
     pass_posts.update({"username": username}, {"$set": {
                       "token": new_token, "expires": str(datetime.now() + timedelta(days=2))}})
     return new_token

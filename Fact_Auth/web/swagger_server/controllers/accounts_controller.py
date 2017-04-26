@@ -1,5 +1,9 @@
-import connexion, os, json, hashlib, random, secrets
-from datetime import date, datetime
+import connexion
+import os
+import json
+import hashlib
+import random
+from datetime import date, datetime, timedelta
 from typing import List, Dict
 from six import iteritems
 from ..util import deserialize_date, deserialize_datetime
@@ -7,7 +11,6 @@ from flask import jsonify
 from flask_api import status
 from pymongo import MongoClient
 from flask import request
-from datetime import datetime, timedelta
 
 
 client = MongoClient(os.environ.get("DB_PORT_27017_TCP_ADDR"), 27017)
@@ -34,7 +37,7 @@ def create_account():
         if not found_username:
 
             print("Creating account for user '" + auth.username + "'")
-            token = create_new_token_secrets()
+            token = create_new_token()
             credentials = {"username": auth.username,
                            "password": hashlib.md5((auth.password).encode('utf-8')).hexdigest(),
                            "token": token,
@@ -53,7 +56,7 @@ def create_account():
 
         print("Missing Authentication Header")
         print("---------------------------------------------------------------")
-        return Response("Authentication header required","N/A"), status.HTTP_401_UNAUTHORIZED
+        return Response("Authentication header required", "N/A"), status.HTTP_401_UNAUTHORIZED
 
 
 def login_account():
@@ -107,7 +110,7 @@ def login_account():
                 print("Username '" + auth.username +
                       "' entered incorrect password")
                 print("---------------------------------------------------------------")
-                return Response("Incorrect Username or Password","N/A"), status.HTTP_401_UNAUTHORIZED
+                return Response("Incorrect Username or Password", "N/A"), status.HTTP_401_UNAUTHORIZED
 
     else:
 
@@ -121,16 +124,9 @@ def create_new_token():
         token = token + str(random.randrange(10))
     return hashlib.md5((token).encode('utf-8')).hexdigest()
 
-def create_new_token_secrets():
-    token = secrets.token_urlsafe(64)
-    return token
-
-
 def update_token(username):
-    new_token = create_new_token_secrets()
-    pass_posts.update({"username": username}, {"$set": {
-                      "token": new_token, "expires": str(datetime.now() + timedelta(days=2))}})
-    return new_token
+    new_token = create_new_token()
+    pass_posts.update({"username": username}, {"$set": {"token": new_token,"expires": str(datetime.now() + timedelta(days=2))}})
 
 def Response(status,token):
     return jsonify({"Status": status, "Token": token})
