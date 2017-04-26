@@ -3,6 +3,7 @@
 
 #include <QMainWindow>
 #include "httprequestworker.h"
+#include "randomfact.h"
 
 namespace Ui {
 class MainWindow;
@@ -27,6 +28,7 @@ private slots:
 private:
     Ui::MainWindow *ui;
     HttpRequestWorker *worker;
+    RandomFact *fact_display;
 };
 
 #endif // MAINWINDOW_H

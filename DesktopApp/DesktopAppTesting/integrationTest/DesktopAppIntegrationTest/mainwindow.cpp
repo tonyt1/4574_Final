@@ -4,6 +4,7 @@
 
 const QString BASE_URL = QString("enter/url/here");
 const QString GET_REQUEST = QString("GET");
+const QString PUT_REQUEST = QString("PUT");
 
 
 MainWindow::MainWindow(QWidget *parent) :
@@ -41,7 +42,7 @@ void MainWindow::on_login_clicked()
 void MainWindow::on_createaccount_clicked()
 {
     //create an request with the url and specific type of request
-    HttpRequestInput input(BASE_URL, GET_REQUEST);
+    HttpRequestInput input(BASE_URL, PUT_REQUEST);
 
     //example of adding a json body to the request
     //input.add_json(json);
@@ -54,7 +55,17 @@ void MainWindow::on_createaccount_clicked()
 // the random fact to display in the message body (worker->response)
 void MainWindow::handle_result(HttpRequestWorker *worker, QString StatusCode)
 {
+    //set up the random fact widget
+    //fact_display = new RandomFact(this);
+
+
+
+    //delete these two lines
     Q_UNUSED(worker);
     Q_UNUSED(StatusCode);
+
+
+    //if we get a successful login response then open fact display widget
+    // fact_display->show();
 
 }
