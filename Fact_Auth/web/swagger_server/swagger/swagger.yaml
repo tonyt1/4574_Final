@@ -65,7 +65,7 @@ paths:
       security:
       - basicAuth: []
       x-swagger-router-controller: "swagger_server.controllers.accounts_controller"
-  /facts/subject:
+  /api/subject:
     get:
       tags:
       - "Facts"
@@ -100,7 +100,7 @@ paths:
       security:
       - basicAuth: []
       x-swagger-router-controller: "swagger_server.controllers.facts_controller"
-  /facts/random:
+  /api/random:
     get:
       tags:
       - "Facts"
