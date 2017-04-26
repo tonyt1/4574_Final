@@ -1,0 +1,25 @@
+#ifndef RANDOMFACT_H
+#define RANDOMFACT_H
+
+#include <QWidget>
+
+namespace Ui {
+class RandomFact;
+}
+
+class RandomFact : public QWidget
+{
+    Q_OBJECT
+
+public:
+    explicit RandomFact(QWidget *parent = 0);
+    ~RandomFact();
+
+private slots:
+    void on_logout_but_clicked();
+    
+private:
+    Ui::RandomFact *ui;
+};
+
+#endif // RANDOMFACT_H

@@ -16,17 +16,19 @@ TEMPLATE = app
 
 SOURCES +=\
     httprequestworker.cpp \
-    testgui.cpp \
     httprequestworker.cpp \
     mainwindow.cpp \
-    testgui.cpp
+    main.cpp \
+    randomfact.cpp
 
 HEADERS  += \
     httprequestworker.h \
     jsonkeys.h \
     httprequestworker.h \
     jsonkeys.h \
-    mainwindow.h
+    mainwindow.h \
+    randomfact.h
 
 FORMS    += \
-    mainwindow.ui
+    mainwindow.ui \
+    randomfact.ui
