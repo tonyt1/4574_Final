@@ -1,0 +1,141 @@
+---
+swagger: "2.0"
+info:
+  description: "Generates a random fact based on the unofficial Wikipedia API  and\
+    \ Natural Language Toolkit modules. API's use authentication with either Username\
+    \ and Password, or Token."
+  version: "1.0.0"
+  title: "User Authentication Fact Generator"
+host: "localhost:8000"
+basePath: "/facts"
+schemes:
+- "https"
+paths:
+  /accounts:
+    get:
+      tags:
+      - "Accounts"
+      summary: "Attempts to log a user in"
+      description: "Given a username and password checks the database to see if those\
+        \ are the proper credentials to get access. If the user has an expired token\
+        \ it will return a new one."
+      operationId: "login_account"
+      produces:
+      - "application/json"
+      parameters: []
+      responses:
+        200:
+          description: "Created Account"
+          schema:
+            type: "integer"
+            format: "int32"
+        401:
+          description: "Authentication header required / Incorrect Username or Password"
+          schema:
+            type: "integer"
+            format: "int32"
+      security:
+      - basicAuth: []
+      x-swagger-router-controller: "swagger_server.controllers.accounts_controller"
+    post:
+      tags:
+      - "Accounts"
+      summary: "Creates an account for user"
+      description: "Allows user to create an account for future logins"
+      operationId: "create_account"
+      produces:
+      - "application/json"
+      parameters: []
+      responses:
+        200:
+          description: "Created Account"
+          schema:
+            type: "integer"
+            format: "int32"
+        401:
+          description: "Authentication header required"
+          schema:
+            type: "integer"
+            format: "int32"
+        409:
+          description: "Username already exists"
+          schema:
+            type: "integer"
+            format: "int32"
+      security:
+      - basicAuth: []
+      x-swagger-router-controller: "swagger_server.controllers.accounts_controller"
+  /facts/subject:
+    get:
+      tags:
+      - "Facts"
+      summary: "Generates a random fact about a particular topic"
+      description: "Takes in token"
+      operationId: "get_fact_subject"
+      produces:
+      - "application/json"
+      - "application/xml"
+      parameters:
+      - name: "topic"
+        in: "query"
+        description: "The topic that a fact should be related to"
+        required: true
+        type: "string"
+      responses:
+        200:
+          description: "Facts about the subject"
+          schema:
+            type: "integer"
+            format: "int32"
+        404:
+          description: "Facts about the subject could not be found"
+          schema:
+            type: "integer"
+            format: "int32"
+        502:
+          description: "There was an error in the Wikipedia API"
+          schema:
+            type: "integer"
+            format: "int32"
+      security:
+      - basicAuth: []
+      x-swagger-router-controller: "swagger_server.controllers.facts_controller"
+  /facts/random:
+    get:
+      tags:
+      - "Facts"
+      summary: "Generates a random fact about a random subject"
+      description: "Takes in token"
+      operationId: "get_fact_random"
+      produces:
+      - "application/json"
+      - "application/xml"
+      parameters: []
+      responses:
+        200:
+          description: "The request was accepted and a fact was returned"
+          schema:
+            type: "integer"
+            format: "int32"
+        502:
+          description: "There was an error in the Wikipedia API"
+          schema:
+            type: "integer"
+            format: "int32"
+      security:
+      - basicAuth: []
+      x-swagger-router-controller: "swagger_server.controllers.facts_controller"
+securityDefinitions:
+  basicAuth:
+    type: "basic"
+definitions:
+  Error:
+    type: "object"
+    properties:
+      code:
+        type: "integer"
+        format: "int32"
+      message:
+        type: "string"
+      fields:
+        type: "string"
