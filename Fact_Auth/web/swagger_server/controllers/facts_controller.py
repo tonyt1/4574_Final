@@ -68,18 +68,15 @@ def get_fact_random():
                 response["subject"] = subject
                 response["facts"] = facts
                 code = status.HTTP_200_OK
-
-                if return_token:
-                    response["token"] = found_user["token"]
-
             else:
                 response["error"] = facts
                 response["subject"] = subject
                 code = status.HTTP_404_NOT_FOUND
 
-                if token is not None:
-                    response["token"] = token
-
+            if token is not None:
+                response["token"] = token
+            else:
+                response["token"] = "N/A"
             print("---------------------------------------------------------------")
             return jsonify(response), code
 
@@ -145,16 +142,15 @@ def get_fact_subject(topic):
                 response["facts"] = facts
                 code = status.HTTP_200_OK
 
-                if return_token:
-                    response["token"] = found_user["token"]
-
             else:
                 response["error"] = facts
                 response["subject"] = subject
                 code = status.HTTP_404_NOT_FOUND
-                
-                if token is not None:
-                    response["token"] = token
+            
+            if token is not None:
+                response["token"] = token
+            else:
+                response["token"] = "N/A"
 
             print("---------------------------------------------------------------")
             return jsonify(response), code
