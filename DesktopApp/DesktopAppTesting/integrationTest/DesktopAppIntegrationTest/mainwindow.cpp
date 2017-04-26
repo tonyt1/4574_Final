@@ -56,9 +56,15 @@ void MainWindow::on_createaccount_clicked()
 void MainWindow::handle_result(HttpRequestWorker *worker, QString StatusCode)
 {
     //set up the random fact widget
-    //fact_display = new RandomFact(this);
+    fact_display = new RandomFact(this);
 
+    connect(this, SIGNAL(SendToken(QByteArray)), fact_display, SLOT(AcceptToken(QByteArray)));
 
+    //when we get a valid token, emit the token to randomfact.cpp
+    //emit SendToken(token);
+
+    //if the login was unsuccessfull, delete the fact_display
+    //delete fact_display;
 
     //delete these two lines
     Q_UNUSED(worker);

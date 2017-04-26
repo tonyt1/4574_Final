@@ -22,6 +22,7 @@ signals:
 private slots:
     void on_logout_but_clicked();
     void handle_result(HttpRequestWorker *worker, QString StatusCode);
+    void AcceptToken(QByteArray token);
 
     void on_getfact_but_clicked();
 

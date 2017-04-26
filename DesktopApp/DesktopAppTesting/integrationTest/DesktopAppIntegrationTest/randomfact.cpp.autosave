@@ -38,9 +38,6 @@ void RandomFact::on_logout_but_clicked()
 
 void RandomFact::handle_result(HttpRequestWorker *worker, QString StatusCode)
 {
-    //pull out has token and save it in HashToken byte array
-
-
     //if this widget is not open then dont do anything
     if(!this->isVisible())
         return;
