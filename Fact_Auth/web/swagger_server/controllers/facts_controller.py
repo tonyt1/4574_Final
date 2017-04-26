@@ -50,9 +50,6 @@ def get_fact_random():
 
                 if datetime.strptime(found_user["expires"], "%Y-%m-%d %H:%M:%S.%f") < datetime.now():
                     token = update_token(auth.username)
-                    print("Token expired")
-
-
             else:
                 print("Username '" + auth.username +
                       "' entered incorrect token")
@@ -72,8 +69,8 @@ def get_fact_random():
                 response["facts"] = facts
                 code = status.HTTP_200_OK
 
-                if token is not None:
-                    response["token"] = token
+                if return_token:
+                    response["token"] = found_user["token"]
 
             else:
                 response["error"] = facts
@@ -109,7 +106,7 @@ def get_fact_subject(topic):
         print("Searching for user '" + auth.username + "'")
         found_user = pass_posts.find_one({"username": auth.username})
         
-        return_token = False
+        token = None
 
         if not found_user:
             print("Could not find user '" + auth.username + "'")
@@ -128,9 +125,7 @@ def get_fact_subject(topic):
             elif found_user["password"] == hashlib.md5((auth.password).encode('utf-8')).hexdigest():
                 
                 if datetime.strptime(found_user["expires"], "%Y-%m-%d %H:%M:%S.%f") < datetime.now():
-                    update_token(auth.username)
-                    return_token = True
-
+                    token = update_token(auth.username)
             else:
                 print("Username '" + auth.username +
                       "' entered incorrect token")
@@ -158,8 +153,8 @@ def get_fact_subject(topic):
                 response["subject"] = subject
                 code = status.HTTP_404_NOT_FOUND
                 
-                if return_token:
-                    response["token"] = found_user["token"]
+                if token is not None:
+                    response["token"] = token
 
             print("---------------------------------------------------------------")
             return jsonify(response), code
