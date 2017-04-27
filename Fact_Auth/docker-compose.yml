@@ -6,7 +6,7 @@ web:
    - .:/code
   links:
    - db
-  container_name: authServer
+  container_name: FactAuthServer
 db:
   image: mongo:3.0.2
   command: mongod --dbpath /data/db --smallfiles
