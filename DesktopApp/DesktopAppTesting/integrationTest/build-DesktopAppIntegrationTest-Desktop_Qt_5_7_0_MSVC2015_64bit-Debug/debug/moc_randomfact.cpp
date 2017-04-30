@@ -19,8 +19,8 @@
 
 QT_BEGIN_MOC_NAMESPACE
 struct qt_meta_stringdata_RandomFact_t {
-    QByteArrayData data[11];
-    char stringdata0[148];
+    QByteArrayData data[14];
+    char stringdata0[182];
 };
 #define QT_MOC_LITERAL(idx, ofs, len) \
     Q_STATIC_BYTE_ARRAY_DATA_HEADER_INITIALIZER_WITH_OFFSET(len, \
@@ -34,18 +34,22 @@ QT_MOC_LITERAL(1, 11, 15), // "SendHTTPRequest"
 QT_MOC_LITERAL(2, 27, 0), // ""
 QT_MOC_LITERAL(3, 28, 17), // "HttpRequestInput*"
 QT_MOC_LITERAL(4, 46, 5), // "input"
-QT_MOC_LITERAL(5, 52, 21), // "on_logout_but_clicked"
-QT_MOC_LITERAL(6, 74, 13), // "handle_result"
-QT_MOC_LITERAL(7, 88, 18), // "HttpRequestWorker*"
-QT_MOC_LITERAL(8, 107, 6), // "worker"
-QT_MOC_LITERAL(9, 114, 10), // "StatusCode"
-QT_MOC_LITERAL(10, 125, 22) // "on_getfact_but_clicked"
+QT_MOC_LITERAL(5, 52, 15), // "FactWindowClose"
+QT_MOC_LITERAL(6, 68, 21), // "on_logout_but_clicked"
+QT_MOC_LITERAL(7, 90, 13), // "handle_result"
+QT_MOC_LITERAL(8, 104, 18), // "HttpRequestWorker*"
+QT_MOC_LITERAL(9, 123, 6), // "worker"
+QT_MOC_LITERAL(10, 130, 10), // "StatusCode"
+QT_MOC_LITERAL(11, 141, 11), // "AcceptToken"
+QT_MOC_LITERAL(12, 153, 5), // "token"
+QT_MOC_LITERAL(13, 159, 22) // "on_getfact_but_clicked"
 
     },
     "RandomFact\0SendHTTPRequest\0\0"
-    "HttpRequestInput*\0input\0on_logout_but_clicked\0"
-    "handle_result\0HttpRequestWorker*\0"
-    "worker\0StatusCode\0on_getfact_but_clicked"
+    "HttpRequestInput*\0input\0FactWindowClose\0"
+    "on_logout_but_clicked\0handle_result\0"
+    "HttpRequestWorker*\0worker\0StatusCode\0"
+    "AcceptToken\0token\0on_getfact_but_clicked"
 };
 #undef QT_MOC_LITERAL
 
@@ -55,27 +59,31 @@ static const uint qt_meta_data_RandomFact[] = {
        7,       // revision
        0,       // classname
        0,    0, // classinfo
-       4,   14, // methods
+       6,   14, // methods
        0,    0, // properties
        0,    0, // enums/sets
        0,    0, // constructors
        0,       // flags
-       1,       // signalCount
+       2,       // signalCount
 
  // signals: name, argc, parameters, tag, flags
-       1,    1,   34,    2, 0x06 /* Public */,
+       1,    1,   44,    2, 0x06 /* Public */,
+       5,    0,   47,    2, 0x06 /* Public */,
 
  // slots: name, argc, parameters, tag, flags
-       5,    0,   37,    2, 0x08 /* Private */,
-       6,    2,   38,    2, 0x08 /* Private */,
-      10,    0,   43,    2, 0x08 /* Private */,
+       6,    0,   48,    2, 0x08 /* Private */,
+       7,    2,   49,    2, 0x08 /* Private */,
+      11,    1,   54,    2, 0x08 /* Private */,
+      13,    0,   57,    2, 0x08 /* Private */,
 
  // signals: parameters
     QMetaType::Void, 0x80000000 | 3,    4,
+    QMetaType::Void,
 
  // slots: parameters
     QMetaType::Void,
-    QMetaType::Void, 0x80000000 | 7, QMetaType::QString,    8,    9,
+    QMetaType::Void, 0x80000000 | 8, QMetaType::QString,    9,   10,
+    QMetaType::Void, QMetaType::QByteArray,   12,
     QMetaType::Void,
 
        0        // eod
@@ -88,15 +96,17 @@ void RandomFact::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, 
         Q_UNUSED(_t)
         switch (_id) {
         case 0: _t->SendHTTPRequest((*reinterpret_cast< HttpRequestInput*(*)>(_a[1]))); break;
-        case 1: _t->on_logout_but_clicked(); break;
-        case 2: _t->handle_result((*reinterpret_cast< HttpRequestWorker*(*)>(_a[1])),(*reinterpret_cast< QString(*)>(_a[2]))); break;
-        case 3: _t->on_getfact_but_clicked(); break;
+        case 1: _t->FactWindowClose(); break;
+        case 2: _t->on_logout_but_clicked(); break;
+        case 3: _t->handle_result((*reinterpret_cast< HttpRequestWorker*(*)>(_a[1])),(*reinterpret_cast< QString(*)>(_a[2]))); break;
+        case 4: _t->AcceptToken((*reinterpret_cast< QByteArray(*)>(_a[1]))); break;
+        case 5: _t->on_getfact_but_clicked(); break;
         default: ;
         }
     } else if (_c == QMetaObject::RegisterMethodArgumentMetaType) {
         switch (_id) {
         default: *reinterpret_cast<int*>(_a[0]) = -1; break;
-        case 2:
+        case 3:
             switch (*reinterpret_cast<int*>(_a[1])) {
             default: *reinterpret_cast<int*>(_a[0]) = -1; break;
             case 0:
@@ -111,6 +121,13 @@ void RandomFact::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, 
             typedef void (RandomFact::*_t)(HttpRequestInput * );
             if (*reinterpret_cast<_t *>(func) == static_cast<_t>(&RandomFact::SendHTTPRequest)) {
                 *result = 0;
+                return;
+            }
+        }
+        {
+            typedef void (RandomFact::*_t)();
+            if (*reinterpret_cast<_t *>(func) == static_cast<_t>(&RandomFact::FactWindowClose)) {
+                *result = 1;
                 return;
             }
         }
@@ -142,13 +159,13 @@ int RandomFact::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
     if (_id < 0)
         return _id;
     if (_c == QMetaObject::InvokeMetaMethod) {
-        if (_id < 4)
+        if (_id < 6)
             qt_static_metacall(this, _c, _id, _a);
-        _id -= 4;
+        _id -= 6;
     } else if (_c == QMetaObject::RegisterMethodArgumentMetaType) {
-        if (_id < 4)
+        if (_id < 6)
             qt_static_metacall(this, _c, _id, _a);
-        _id -= 4;
+        _id -= 6;
     }
     return _id;
 }
@@ -158,5 +175,11 @@ void RandomFact::SendHTTPRequest(HttpRequestInput * _t1)
 {
     void *_a[] = { Q_NULLPTR, const_cast<void*>(reinterpret_cast<const void*>(&_t1)) };
     QMetaObject::activate(this, &staticMetaObject, 0, _a);
+}
+
+// SIGNAL 1
+void RandomFact::FactWindowClose()
+{
+    QMetaObject::activate(this, &staticMetaObject, 1, Q_NULLPTR);
 }
 QT_END_MOC_NAMESPACE

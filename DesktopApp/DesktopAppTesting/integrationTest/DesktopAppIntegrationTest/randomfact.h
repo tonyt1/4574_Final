@@ -2,6 +2,10 @@
 #define RANDOMFACT_H
 
 #include <QWidget>
+#include <QJsonObject>
+#include <QJsonDocument>
+#include <QJsonArray>
+#include <QJsonParseError>
 #include "httprequestworker.h"
 
 namespace Ui {
@@ -18,6 +22,7 @@ public:
 
 signals:
     void SendHTTPRequest(HttpRequestInput *input);
+    void FactWindowClose();
 
 private slots:
     void on_logout_but_clicked();
@@ -25,6 +30,9 @@ private slots:
     void AcceptToken(QByteArray token);
 
     void on_getfact_but_clicked();
+
+protected:
+    void closeEvent(QCloseEvent * event);
 
 private:
     Ui::RandomFact *ui;

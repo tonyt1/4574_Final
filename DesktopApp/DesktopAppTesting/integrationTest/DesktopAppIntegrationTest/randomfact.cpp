@@ -7,7 +7,7 @@ const QString GET_REQUEST = QString("GET");
 const QString PUT_REQUEST = QString("PUT");
 
 RandomFact::RandomFact(QWidget *parent) :
-    QWidget(parent),
+    QWidget(parent, Qt::Window),
     worker(new HttpRequestWorker(this)),
     ui(new Ui::RandomFact)
 {
@@ -20,6 +20,7 @@ RandomFact::RandomFact(QWidget *parent) :
     connect(this, SIGNAL(destroyed()), this, SLOT(execute(on_logout_but_clicked())));
 
     HashToken = NULL;
+    //this->show();
 
 }
 
@@ -38,9 +39,6 @@ void RandomFact::on_logout_but_clicked()
 
 void RandomFact::handle_result(HttpRequestWorker *worker, QString StatusCode)
 {
-    //pull out has token and save it in HashToken byte array
-
-
     //if this widget is not open then dont do anything
     if(!this->isVisible())
         return;
@@ -70,4 +68,9 @@ void RandomFact::on_getfact_but_clicked()
      *
      */
 
+}
+
+void RandomFact::closeEvent(QCloseEvent *event)
+{
+    emit FactWindowClose();
 }

@@ -7,6 +7,8 @@
 
 HttpRequestInput::HttpRequestInput() {
     initialize();
+    m_doc = "";
+    m_header = "";
 }
 
 HttpRequestInput::HttpRequestInput(QString v_url_str, QString v_http_method) {
@@ -39,6 +41,13 @@ void HttpRequestInput::add_json(QString doc)
     m_doc = doc;
 }
 
+void HttpRequestInput::add_header_auth(QString username, QString password, QString token)
+{
+    if(token != "")
+        m_header = username + ":" + token;
+    else
+        m_header = username + ":" + password;
+}
 
 HttpRequestWorker::HttpRequestWorker(QObject *parent)
     : QObject(parent), manager(NULL)
@@ -245,7 +254,7 @@ void HttpRequestWorker::execute(HttpRequestInput *input) {
     // prepare connection
 
     QNetworkRequest request = QNetworkRequest(QUrl(input->url_str));
-    //request.setRawHeader("User-Agent", "Agent name goes here");
+    request.setRawHeader("Authorization","Basic " + input->m_header.toUtf8().toBase64());
 
     if (input->var_layout == URL_ENCODED) {
         request.setHeader(QNetworkRequest::ContentTypeHeader, "application/json");
