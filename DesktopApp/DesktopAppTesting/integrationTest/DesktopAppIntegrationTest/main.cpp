@@ -6,9 +6,8 @@ int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
     MainWindow w;
-   // RandomFact p;
+    w.setWindowTitle("Random Facts Generator");
     w.show();
-   // p.show();
 
     return a.exec();
 }

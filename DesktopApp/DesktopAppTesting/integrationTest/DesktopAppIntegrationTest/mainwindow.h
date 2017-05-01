@@ -21,7 +21,7 @@ public:
 
 signals:
     void SendHTTPRequest(HttpRequestInput *input);
-    void SendToken(QByteArray token);
+    void SendToken(QString username, QByteArray token);
 
 private slots:
     void on_login_clicked();

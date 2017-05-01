@@ -3,6 +3,8 @@
 
 #include <QString>
 
+#define CREATE_ACCOUNT 0
+#define LOGIN_ACCOUNT 1
 
 // login
 const QString status_str = QString("Status");
