@@ -24,6 +24,7 @@ import java.util.Calendar;
 import java.util.concurrent.ExecutionException;
 
 public class LoginActivity extends AppCompatActivity {
+    private Boolean notified;
     private Button signInButton;
     private Button createAccountButton;
     private EditText usernameEditText;
@@ -33,6 +34,7 @@ public class LoginActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        notified = false;
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
@@ -194,12 +196,16 @@ public class LoginActivity extends AppCompatActivity {
         t_str.append(t);
         String str_t = t_str.toString();
         //Log.d("Message", str_t);
-        if(t == 30) {
+        if(t == 30 && notified == false) {
             //Log.d("Message", "In If");
+            notified = true;
             NotificationManager notificationManager =
                     (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
 
             notificationManager.notify(0, n);
+        }
+        if(t == 31) {
+            notified = false;
         }
     }
 }
