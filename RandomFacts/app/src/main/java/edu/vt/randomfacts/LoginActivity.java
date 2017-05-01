@@ -1,8 +1,13 @@
 package edu.vt.randomfacts;
 
+import android.app.AlarmManager;
+import android.app.Notification;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.SystemClock;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -15,10 +20,10 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.Calendar;
 import java.util.concurrent.ExecutionException;
 
 public class LoginActivity extends AppCompatActivity {
-
     private Button signInButton;
     private Button createAccountButton;
     private EditText usernameEditText;
@@ -50,8 +55,20 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
 
+        AlarmManager mgr = (AlarmManager) this.getSystemService(Context.ALARM_SERVICE);
         mPrefs = this.getSharedPreferences("vt.edu.RandomFacts", Context.MODE_PRIVATE);
+//        Intent intent = new Intent(this, PushActivity.class);
+//        PendingIntent pi = PendingIntent.getActivity(this, 0, intent, 0);
+//        pi = PendingIntent.getBroadcast(this, 0, intent, 0);
+        Thread t = new Thread(new Runnable() {
+            public void run() {
+                while(true) {
+                   pushNot();
+                }
+            }
+        });
 
+        t.start();
         checkForValidToken();
     }
 
@@ -143,5 +160,46 @@ public class LoginActivity extends AppCompatActivity {
                 //make user log in
         }
         //Otherwise no account has ever been made. make them make an account
+    }
+
+    private void pushNot(){
+        Intent intent = new Intent(this, FactActivity.class);
+        PendingIntent pIntent = PendingIntent.getActivity(this, 0, intent, 0);
+        AlarmManager mgr = (AlarmManager) this.getSystemService(this.ALARM_SERVICE);
+        PendingIntent pi = PendingIntent.getService(this, 0, intent, 0);
+        Calendar calendar = Calendar.getInstance();
+//        calendar.setTimeInMillis(System.currentTimeMillis());
+//        calendar.set(Calendar.HOUR_OF_DAY, 12);
+
+// With setInexactRepeating(), you have to use one of the AlarmManager interval
+// constants--in this case, AlarmManager.INTERVAL_DAY.
+        //mgr.setInexactRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(),
+                //AlarmManager.INTERVAL_DAY, pi);
+
+//        mgr.setInexactRepeating(AlarmManager.ELAPSED_REALTIME_WAKEUP,
+//                SystemClock.elapsedRealtime() + 1000,
+//                1000, pIntent);
+
+// build notification
+// the addAction re-use the same intent to keep the example short
+        Notification n  = new Notification.Builder(this)
+                .setContentTitle("Time for your Fact of the day")
+                .setContentText("Click me!")
+                .setSmallIcon(R.mipmap.ic_launcher)
+                .setContentIntent(pIntent)
+                .setAutoCancel(true)
+                .build();
+        int t = (int)calendar.get(calendar.MINUTE);
+        StringBuilder t_str = new StringBuilder();
+        t_str.append(t);
+        String str_t = t_str.toString();
+        //Log.d("Message", str_t);
+        if(t == 30) {
+            //Log.d("Message", "In If");
+            NotificationManager notificationManager =
+                    (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+
+            notificationManager.notify(0, n);
+        }
     }
 }
