@@ -11,6 +11,7 @@ from flask import jsonify
 from flask_api import status
 from pymongo import MongoClient
 from flask import request
+from pytz import timezone
 
 
 client = MongoClient(os.environ.get("DB_PORT_27017_TCP_ADDR"), 27017)
@@ -25,6 +26,7 @@ def create_account():
     :rtype: int
     """
     print("\n---------------------------------------------------------------")
+    timestamp()
     print("Create Account")
     print("Getting Authentication Headers")
     auth = request.authorization
@@ -66,6 +68,7 @@ def login_account():
     :rtype: int
     """
     print("\n---------------------------------------------------------------")
+    timestamp()
     print("Login to  Account")
     print("Getting Authentication Headers")
     auth = request.authorization
@@ -130,3 +133,9 @@ def update_token(username):
 
 def Response(status,token):
     return jsonify({"Status": status, "Token": token})
+
+def timestamp():
+    fmt = "%Y-%m-%d %H:%M:%S %Z%z"
+    now_time = datetime.now(timezone('US/Eastern'))
+    print(now_time.strftime(fmt))
+    print("\n")

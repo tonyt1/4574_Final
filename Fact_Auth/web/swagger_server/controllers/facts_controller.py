@@ -10,6 +10,9 @@ import fact_generator as FG
 from pymongo import MongoClient
 import os
 import hashlib
+import time
+from datetime import datetime
+from pytz import timezone
 
 client = MongoClient(os.environ.get("DB_PORT_27017_TCP_ADDR"), 27017)
 pass_db = client.passdb
@@ -23,6 +26,7 @@ def get_fact_random():
     """
 
     print("\n---------------------------------------------------------------")
+    timestamp()
     print("Getting Random Fact")
     print("Getting Authentication Headers")
     auth = request.authorization
@@ -30,7 +34,6 @@ def get_fact_random():
     if auth is not None:
         print("Searching for user '" + auth.username + "'")
         found_user = pass_posts.find_one({"username": auth.username})
-
         if not found_user:
             print("Could not find user '" + auth.username + "'")
             print("---------------------------------------------------------------")
@@ -57,6 +60,7 @@ def get_fact_random():
                 return Response("Incorrect Username or Password","N/A"), status.HTTP_401_UNAUTHORIZED
 
             try:
+                print("Getting fact")
                 subject, facts = FG.get_fact_random()
 
             except:
@@ -95,6 +99,7 @@ def get_fact_subject(topic):
     :rtype: int
     """
     print("\n---------------------------------------------------------------")
+    timestamp()
     print("Getting Subject Fact")
     print("Getting Authentication Headers")
     auth = request.authorization
@@ -130,6 +135,7 @@ def get_fact_subject(topic):
                 return Response("Incorrect Username or Password","N/A"), status.HTTP_401_UNAUTHORIZED
 
             try:
+                print("Getting fact")
                 subject, facts = FG.get_fact_subject(topic)
             
             except:
@@ -172,3 +178,9 @@ def update_token(username):
     pass_posts.update({"username": username}, {"$set": {
                       "token": new_token, "expires": str(datetime.now() + timedelta(days=2))}})
     return new_token
+
+def timestamp():
+    fmt = "%Y-%m-%d %H:%M:%S %Z%z"
+    now_time = datetime.now(timezone('US/Eastern'))
+    print(now_time.strftime(fmt))
+    print("\n")
