@@ -52,6 +52,7 @@ void MainWindow::on_login_clicked()
     //this signal executes the request
     worker->handler = LOGIN_ACCOUNT;
     emit SendHTTPRequest(&input);
+    ui->login_password->clear();
 }
 
 //set up creating an account
@@ -69,10 +70,14 @@ void MainWindow::on_createaccount_clicked()
         QMessageBox::information(this, "", "Two Passwords do not Match");
         return;
     }
+
+
     HttpRequestInput input(BASE_URL + "/accounts", PUT_REQUEST);
     input.add_header_auth(ui->create_username->text(), ui->create_password1->text(), "");
     worker->handler = CREATE_ACCOUNT;
     emit SendHTTPRequest(&input);
+    ui->create_password1->clear();
+    ui->create_password2->clear();
 }
 
 //here we should parse to see whether we sucessfully logged in or not, this should also include
@@ -83,15 +88,19 @@ void MainWindow::handle_result(HttpRequestWorker *worker, QString StatusCode)
     QJsonParseError error;
     QJsonDocument Jdoc = QJsonDocument::fromJson(worker->response, &error);
     if(error.error != QJsonParseError::NoError || error.offset >= worker->response.size()){
-        QMessageBox::information(this, "", "Bad json from server");
+        QMessageBox::information(this, "Error", "Bad json from server");
         return;
     }
     QJsonObject JObject = Jdoc.object();
     switch(worker->handler){
     case CREATE_ACCOUNT:
-        if(JObject["Status"]!="Created Account") return;
+        if(JObject["Status"]!="Created Account"){
+            QMessageBox::information(this, "Error", JObject["Status"].toString());
+            return;
+        }
         QMessageBox::information(this, "", JObject["Status"].toString());
         token = JObject[token_str].toString().toUtf8();
+
         fact_display = new RandomFact(this);
         fact_display->setWindowTitle("Log in as " + ui->create_username->text());
         connect(this, SIGNAL(SendToken(QString, QByteArray)), fact_display, SLOT(AcceptToken(QString, QByteArray)));
@@ -101,7 +110,10 @@ void MainWindow::handle_result(HttpRequestWorker *worker, QString StatusCode)
         this->hide();
         break;
     case LOGIN_ACCOUNT:
-        if(JObject["Status"]!="Successful Login") return;
+        if(JObject["Status"]!="Successful Login") {
+            QMessageBox::information(this, "Error", JObject["Status"].toString());
+            return;
+        }
         QMessageBox::information(this, "", JObject["Status"].toString());
         token = JObject[token_str].toString().toUtf8();
         fact_display = new RandomFact(this);
