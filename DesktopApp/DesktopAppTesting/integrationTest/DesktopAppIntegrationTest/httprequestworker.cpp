@@ -43,10 +43,11 @@ void HttpRequestInput::add_json(QString doc)
 
 void HttpRequestInput::add_header_auth(QString username, QString password, QString token)
 {
-    if(token != "")
+    if(token.size() != 0)
         m_header = username + ":" + token;
     else
         m_header = username + ":" + password;
+    qDebug() << m_header;
 }
 
 HttpRequestWorker::HttpRequestWorker(QObject *parent)

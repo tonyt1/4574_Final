@@ -48,6 +48,7 @@ class HttpRequestWorker : public QObject {
 
 public:
     QByteArray response;
+    int handler;
     QNetworkReply::NetworkError error_type;
     QString error_str;
 

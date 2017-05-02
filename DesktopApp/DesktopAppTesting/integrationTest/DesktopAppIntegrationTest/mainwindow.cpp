@@ -4,7 +4,7 @@
 
 const QString BASE_URL = QString("http://ec2-54-191-23-45.us-west-2.compute.amazonaws.com:8000/facts");
 const QString GET_REQUEST = QString("GET");
-const QString PUT_REQUEST = QString("PUT");
+const QString PUT_REQUEST = QString("POST");
 
 
 MainWindow::MainWindow(QWidget *parent) :
@@ -50,67 +50,81 @@ void MainWindow::on_login_clicked()
     //input.add_json(json);
 
     //this signal executes the request
+    worker->handler = LOGIN_ACCOUNT;
     emit SendHTTPRequest(&input);
+    ui->login_password->clear();
 }
 
 //set up creating an account
 void MainWindow::on_createaccount_clicked()
 {
-    //create an request with the url and specific type of request
-    HttpRequestInput input(BASE_URL, PUT_REQUEST);
+    if(ui->create_username->text() == ""){
+        QMessageBox::information(this, "", "Username Field is empty");
+        return;
+    }
+    if(ui->create_password1->text() == ""){
+        QMessageBox::information(this, "", "Password Field is empty");
+        return;
+    }
+    if(ui->create_password1->text() != ui->create_password2->text()){
+        QMessageBox::information(this, "", "Two Passwords do not Match");
+        return;
+    }
 
-    //example of adding a json body to the request
-    //input.add_json(json);
 
-    //this signal executes the request
-    //emit SendHTTPRequest(&input);
+    HttpRequestInput input(BASE_URL + "/accounts", PUT_REQUEST);
+    input.add_header_auth(ui->create_username->text(), ui->create_password1->text(), "");
+    worker->handler = CREATE_ACCOUNT;
+    emit SendHTTPRequest(&input);
+    ui->create_password1->clear();
+    ui->create_password2->clear();
 }
 
 //here we should parse to see whether we sucessfully logged in or not, this should also include
 // the random fact to display in the message body (worker->response)
 void MainWindow::handle_result(HttpRequestWorker *worker, QString StatusCode)
 {
-    //debug
-    QMessageBox::information(this, "", worker->response);
-
-    if(StatusCode.toInt() != 200){
-        QMessageBox::information(this, "", "Incorrect Login Information");
-        return;
-    }
-
-    //parse
+    QByteArray token;
     QJsonParseError error;
     QJsonDocument Jdoc = QJsonDocument::fromJson(worker->response, &error);
-
     if(error.error != QJsonParseError::NoError || error.offset >= worker->response.size()){
-        QMessageBox::information(this, "", "Bad json from server");
+        QMessageBox::information(this, "Error", "Bad json from server");
         return;
     }
-
-
     QJsonObject JObject = Jdoc.object();
+    switch(worker->handler){
+    case CREATE_ACCOUNT:
+        if(JObject["Status"]!="Created Account"){
+            QMessageBox::information(this, "Error", JObject["Status"].toString());
+            return;
+        }
+        QMessageBox::information(this, "", JObject["Status"].toString());
+        token = JObject[token_str].toString().toUtf8();
 
-    QByteArray token = JObject[token_str].toString().toUtf8();
-
-    qDebug() << " token token token : " << token;
-
-
-
-    //set up the random fact widget
-    fact_display = new RandomFact(this);
-
-    connect(this, SIGNAL(SendToken(QByteArray)), fact_display, SLOT(AcceptToken(QByteArray)));
-    connect(fact_display, SIGNAL(FactWindowClose()), this, SLOT(show_after_second_close()));
-
-
-    //when we get a valid token, emit the token to randomfact.cpp
-    emit SendToken("token");
-
-    //if we get a successful login response then open fact display widget
-    fact_display->show();
-    this->hide();
-
-
+        fact_display = new RandomFact(this);
+        fact_display->setWindowTitle("Log in as " + ui->create_username->text());
+        connect(this, SIGNAL(SendToken(QString, QByteArray)), fact_display, SLOT(AcceptToken(QString, QByteArray)));
+        connect(fact_display, SIGNAL(FactWindowClose()), this, SLOT(show_after_second_close()));
+        emit SendToken(ui->create_username->text(), token);
+        fact_display->show();
+        this->hide();
+        break;
+    case LOGIN_ACCOUNT:
+        if(JObject["Status"]!="Successful Login") {
+            QMessageBox::information(this, "Error", JObject["Status"].toString());
+            return;
+        }
+        QMessageBox::information(this, "", JObject["Status"].toString());
+        token = JObject[token_str].toString().toUtf8();
+        fact_display = new RandomFact(this);
+        fact_display->setWindowTitle("Log in as " + ui->login_username->text());
+        connect(this, SIGNAL(SendToken(QString, QByteArray)), fact_display, SLOT(AcceptToken(QString, QByteArray)));
+        connect(fact_display, SIGNAL(FactWindowClose()), this, SLOT(show_after_second_close()));
+        emit SendToken(ui->login_username->text(), token);
+        fact_display->show();
+        this->hide();
+        break;
+    }
 }
 
 void MainWindow::show_after_second_close()

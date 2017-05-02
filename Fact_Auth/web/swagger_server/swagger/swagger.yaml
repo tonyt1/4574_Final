@@ -6,7 +6,6 @@ info:
     \ and Password, or Token."
   version: "1.0.0"
   title: "User Authentication Fact Generator"
-host: "ec2-54-191-23-45.us-west-2.compute.amazonaws.com:8000"
 basePath: "/facts"
 schemes:
 - "https"

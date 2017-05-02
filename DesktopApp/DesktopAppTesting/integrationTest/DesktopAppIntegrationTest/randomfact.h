@@ -7,7 +7,7 @@
 #include <QJsonArray>
 #include <QJsonParseError>
 #include "httprequestworker.h"
-
+#include <QMessageBox>
 namespace Ui {
 class RandomFact;
 }
@@ -27,7 +27,7 @@ signals:
 private slots:
     void on_logout_but_clicked();
     void handle_result(HttpRequestWorker *worker, QString StatusCode);
-    void AcceptToken(QByteArray token);
+    void AcceptToken(QString uid, QByteArray token);
 
     void on_getfact_but_clicked();
 
@@ -38,6 +38,7 @@ private:
     Ui::RandomFact *ui;
     HttpRequestWorker *worker;
     QByteArray HashToken;
+    QString username;
 };
 
 #endif // RANDOMFACT_H
