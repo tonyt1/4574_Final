@@ -1,0 +1,23 @@
+Virginia Tech
+ECE 4574
+Spring 2017
+Final Project
+Team 1
+
+Dockerized container repo:
+https://hub.docker.com/r/heartcase/desktop_app/
+
+
+Tools:
+Qt, lunixdeployqt, appimage
+
+Pull:
+docker pull heartcase/desktop_app
+
+Run:
+xhost +
+docker run -v /tmp/.X11-unix:/tmp/.X11-unix -e DISPLAY=$DISPLAY -v /dev/shm:/dev/shm -v ~/src:/root --name app -it --rm --entrypoint /home/squashfs-root/DesktopAppTest heartcase/desktop_app
+
+Boyang Li
+Dylan Zeigler
+
