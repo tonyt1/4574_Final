@@ -22,19 +22,19 @@ This folder contains the videos showing individual testing for each member's par
 ## Group Work Distribution:
 
 #### Tony Tolstykh
-Authentication Server
+Authentication Server - Created an API that allows users to create and login into their accounts. Login creates a 2 day token used to verify session.
 
 #### Boyang Li
-Desktop application
+Desktop application - I implement part of the desktop app and dockerize the app and the tests.
 
 #### Dylan Zeigler
-Desktop Application
+Desktop Application - Created Desktop App framework, implementation and testing.
 
 #### Jonathan DeFreeuw
-Fact generating server
+Fact generating server - Worked to get the API working with fact generation. Combined with Tony to get authentication going. Created Docker containers for the API+auth and API internal and external testing.
 
 #### Joshua Chung
-Android push notifications
+Android push notifications - Made the push notification and testing.
 
 #### Ryan Smith
-Android REST calls
+Android REST calls - Made the android app and testing.
