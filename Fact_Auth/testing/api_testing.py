@@ -2,7 +2,7 @@ import unittest, mock, requests, time, sys
 import fact_generator as FG
 from time import sleep
 
-api_url = "http://127.0.0.1:8000/facts"
+api_url = "http://ec2-54-191-23-45.us-west-2.compute.amazonaws.com:8000/facts"
 username = ""
 password = ""
 token = ""
@@ -79,6 +79,7 @@ class TestExternalMethods(unittest.TestCase):
 		response = requests.get(url, params=payload, auth=(username, token))
 		self.assertEqual(200, response.status_code)
 		json_response = response.json()
+		print(json_response)
 		return_subject = json_response["subject"]
 		self.assertEqual(topic, return_subject)
 		fact = json_response["facts"]
@@ -123,10 +124,9 @@ class TestExternalMethods(unittest.TestCase):
 
 
 if __name__ == '__main__':
-	str_time = str(time.time())
-	username = "user" + str_time[:-8] + str_time[-7:]
+	username = "external"
 	password = "unittest"
-	response = requests.post(api_url + "/accounts", auth=(username, password))
+	response = requests.get(api_url + "/accounts", auth=(username, password))
 	if response.status_code != 200:
 		sys.exit()
 	json_response = response.json()

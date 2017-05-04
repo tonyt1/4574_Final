@@ -2,8 +2,6 @@ web:
   build: ./web
   ports:
    - "8000:8000"
-  volumes:
-   - .:/code
   links:
    - db
   container_name: FactAuthServer

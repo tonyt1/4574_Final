@@ -11,9 +11,13 @@ To run an image without authentication, either download the [Docker Image](https
 `sudo docker run -p 8080:8080 jondef95/fact-gen-server`
 
 ### With Authentication
-To run an image of the fact generator with authentication, use the Docker-Compose file in the Fact_Auth directory:
+To run an image of the fact generator with authentication, use the Docker-Compose file while in this directory:
 
-`sudo docker-compose up Fact_Auth/`
+`sudo docker-compose up`
+
+The image for the API with authentication can be found on [Docker Hub](https://hub.docker.com/r/jondef95/factauth_web). However, this image will not work without the Docker Compose file because it requires a MongoDB instance, which is not included in the Dockerfile that constructed the API image. 
 
 ## Running the Tests
-To run the current tests, please download the [Docker Image](https://hub.docker.com/r/jondef95/fact_gen_test/) and run the image. It will automatically run the tests given. Alternatively, you can build the image using the Dockerfile in this repository.
+To run the internal and external tests on the API, use the Docker-Compose in the `testing` directory:
+
+`sudo docker-compose up testing/ 
