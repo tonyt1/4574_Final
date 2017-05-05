@@ -38,6 +38,7 @@ This is the Mobile APP for the final project in ECE 4574 at Virginia Tech
 
 
 ## Notes ##
+Videos of full integration tests running can be found in Testing_Videos folder in main directory.
 
 
 ### Authors ###
