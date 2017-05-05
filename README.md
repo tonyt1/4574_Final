@@ -37,4 +37,4 @@ Fact generating server - Worked to get the API working with fact generation. Com
 Android push notifications - Made the push notification and testing.
 
 #### Ryan Smith
-Android REST calls - Made the android app and testing.
+Android REST calls and main app - Made the android app and testing.
